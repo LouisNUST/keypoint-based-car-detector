@@ -20,8 +20,8 @@ from .network import nets
 from . import datasets, decoder, encoder, show, transforms
 
 
-ANNOTATIONS_VAL = '/data/bonnesoeur-data/carfusion_to_coco/annotations/car_test0.3.json'
-IMAGE_DIR_VAL = '/data/bonnesoeur-data/data/carfusion/test'
+ANNOTATIONS_VAL = '../carfusion_to_coco/annotations/car_test0.3.json'
+IMAGE_DIR_VAL = '../carfusion_to_coco/datasets/carfusion/test'
 
 LOG = logging.getLogger(__name__)
 
