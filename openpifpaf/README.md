@@ -21,7 +21,7 @@ This work is part of a project aiming to detect cars with the openpifpaf framewo
 
 ![Carfusion validation](docs/validation.png)
 
-![Carfusion nuscenes](docs/nuscenes.png)
+![Carfusion nuscenes](docs/car_nuscenes.png)
 
 
 # Install
