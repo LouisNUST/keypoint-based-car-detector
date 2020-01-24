@@ -1,0 +1,3 @@
+[submodule "monoloco"]
+	path = monoloco
+	url = ./monoloco
