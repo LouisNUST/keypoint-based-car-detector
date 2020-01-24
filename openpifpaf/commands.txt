@@ -1,0 +1,52 @@
+CUDA_VISIBLE_DEVICES=0,1 python -m openpifpaf.predict   --paf-th 0.0 --seed-threshold 0.0 --instance-threshold 0.0 --checkpoint /home/maximebonnesoeur/semester_project/openpifpaf/outputs/resnet50-pif-paf-edge401-191110-230901-01ce2bed.pkl  --disable-cuda 540 --long-edge /data/samsung-191018/data_samsung_190722/1546634529.919879/1546634517.003523_FLC_R.jpg --debug --show
+
+
+time CUDA_VISIBLE_DEVICES=0,1 python3 -m openpifpaf.train \
+  --batch-size=64 \
+  --basenet=shufflenetv2x2 \
+  --head-quad=1 \
+  --epochs=150 \
+  --momentum=0.9 \
+  --headnets pif paf \
+  --lambdas 30 2 2 50 3 3 \
+  --loader-workers=16 \
+  --lr=0.1 \
+  --lr-decay 120 140 \
+  --no-pretrain \
+  --weight-decay=1e-5 \
+  --update-batchnorm-runningstatistics \
+  --ema=0.03
+
+
+time CUDA_VISIBLE_DEVICES=0,1 python3 -m openpifpaf.train \
+  --lr=1e-3 \
+  --momentum=0.95 \
+  --epochs=150 \
+  --lr-decay 120 140 \
+  --batch-size=16 \
+  --basenet=resnet101 \
+  --head-quad=1 \
+  --headnets pif paf\
+  --square-edge=401 \
+  --lambdas 10 1 1 15 1 1 
+
+
+# Command use to train resnet50 on 50 images for the samsung dataset
+
+CUDA_VISIBLE_DEVICES=0 python -m openpifpaf.train   --lr=1e-3   --momentum=0.95   --epochs=100   --lr-decay 120 140  --batch-size 1 --n-images 50   --basenet=resnet50    --headnets pif paf skeleton  --square-edge=700 --rescale-images 0.3
+
+# Command used to train resent 50 on 50 images for the carfusion dataset.
+
+CUDA_VISIBLE_DEVICES=0 python -m openpifpaf.train   --lr=1e-3   --momentum=0.95   --epochs=100   --lr-decay 120 140  --batch-size 1 --n-images 50   --basenet=resnet50    --headnets pif paf skeleton  --square-edge=700 --rescale-images 0.5
+
+# Command to print the result of the logs of a trainign  in the terminal :
+
+ITERMPLOT="rv" python -m openpifpaf.logs /home/maximebonnesoeur/semester_project/openpifpaf/outputs/resnet50-pif-paf-edge401-191112-1log
+
+# Command to predict an entire directory : 
+
+CUDA_VISIBLE_DEVICES=1 python -m openpifpaf.predict   --paf-th 0.1 --seed-threshold 0.1 --instance-threshold 0.1 --checkpoint /home/maximebonnesoeur/semester_project/openpifpaf/outputs/resnet50-pif-paf-skeleton-edge700-191116-195104-0e3dc0b6.pkl --long-edge 800 --glob /data/samsung-191018/data_samsung_190722/1546635866.223688/*.jpg -o /data/samsung-191018/results_pifPaf --long-edge 800 --show
+
+#Command used t train resnet 50 on all the processed images for the samsung dataset
+
+CUDA_VISIBLE_DEVICES=1 python -m openpifpaf.train   --lr=1e-3   --momentum=0.95   --epochs=50   --lr-decay 120 140  --batch-size 3  --basenet=resnet50    --headnets pif paf skeleton  --square-edge=700 --rescale-images 0.3/

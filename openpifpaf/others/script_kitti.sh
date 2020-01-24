@@ -1,0 +1,1 @@
+python3 -m openpifpaf.predict   --paf-th 0.05 --seed-threshold 0.5 --instance-threshold 0.1 --checkpoint   /home/bonnesoe/semester_project/monoloco/data/kitti/images/*.png  -o /data/bonnesoeur-data/monoloco/car_kitti/json/in --long-edge 1200 --output-type json --force-complete-pose

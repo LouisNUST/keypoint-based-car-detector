@@ -1,0 +1,370 @@
+"""Losses."""
+
+from abc import ABCMeta
+import logging
+import torch
+
+from ..data import (
+    COCO_SIGMAS,
+    COCO_SKELETON,
+    DENSER_COCO_PERSON_SKELETON,
+    KINEMATIC_TREE_SKELETON,
+)
+
+LOG = logging.getLogger(__name__)
+
+LOSSES = None
+
+
+class Loss(metaclass=ABCMeta):
+    @classmethod
+    def cli(cls, parser):
+        """Add decoder specific command line arguments to the parser."""
+
+    @classmethod
+    def apply_args(cls, args):
+        """Read command line arguments args to set class properties."""
+
+
+def laplace_loss(x1, x2, logb, t1, t2, weight=None):
+    """Loss based on Laplace Distribution.
+
+    Loss for a single two-dimensional vector (x1, x2) with radial
+    spread b and true (t1, t2) vector.
+    """
+
+    # left derivative of sqrt at zero is not defined, so prefer torch.norm():
+    # https://github.com/pytorch/pytorch/issues/2421
+    # norm = torch.sqrt((x1 - t1)**2 + (x2 - t2)**2)
+    norm = (torch.stack((x1, x2)) - torch.stack((t1, t2))).norm(dim=0)
+
+    losses = 0.694 + logb + norm * torch.exp(-logb)
+    if weight is not None:
+        losses = losses * weight
+    return torch.sum(losses)
+
+
+def l1_loss(x1, x2, _, t1, t2, weight=None):
+    """L1 loss.
+
+    Loss for a single two-dimensional vector (x1, x2)
+    true (t1, t2) vector.
+    """
+    losses = torch.sqrt((x1 - t1)**2 + (x2 - t2)**2)
+    if weight is not None:
+        losses = losses * weight
+    return torch.sum(losses)
+
+
+class SmoothL1Loss(object):
+    def __init__(self, r_smooth, scale_required=True):
+        self.r_smooth = r_smooth
+        self.scale = None
+        self.scale_required = scale_required
+
+    def __call__(self, x1, x2, _, t1, t2, weight=None):
+        """L1 loss.
+
+        Loss for a single two-dimensional vector (x1, x2)
+        true (t1, t2) vector.
+        """
+        if self.scale_required and self.scale is None:
+            raise Exception
+        if self.scale is None:
+            self.scale = 1.0
+
+        r = self.r_smooth * self.scale
+        d = torch.sqrt((x1 - t1)**2 + (x2 - t2)**2)
+        smooth_regime = d < r
+
+        smooth_loss = 0.5 / r[smooth_regime] * d[smooth_regime] ** 2
+        linear_loss = d[smooth_regime == 0] - (0.5 * r[smooth_regime == 0])
+        losses = torch.cat((smooth_loss, linear_loss))
+
+        if weight is not None:
+            losses = losses * weight
+
+        self.scale = None
+        return torch.sum(losses)
+
+
+class MultiHeadLoss(torch.nn.Module):
+    def __init__(self, losses, lambdas):
+        super(MultiHeadLoss, self).__init__()
+
+        self.losses = torch.nn.ModuleList(losses)
+        self.lambdas = lambdas
+
+        self.field_names = [n for l in self.losses for n in l.field_names]
+        LOG.info('multihead loss: %s, %s', self.field_names, self.lambdas)
+
+    def forward(self, head_fields, head_targets):  # pylint: disable=arguments-differ
+        assert len(self.losses) == len(head_fields)
+        assert len(self.losses) <= len(head_targets)
+        """
+        print("_______In_FUNCTION_______")
+        print("head field")
+        print(head_fields[0][0].shape)
+        print("head target")
+        print(head_targets[0][0].shape)
+        """
+
+        flat_head_losses = [ll
+                            for l, f, t in zip(self.losses, head_fields, head_targets)
+                            for ll in l(f, t)]
+
+        assert len(self.lambdas) == len(flat_head_losses)
+        loss_values = [lam * l
+                       for lam, l in zip(self.lambdas, flat_head_losses)
+                       if l is not None]
+        total_loss = sum(loss_values) if loss_values else None
+
+        return total_loss, flat_head_losses
+
+
+class CompositeLoss(Loss, torch.nn.Module):
+    default_background_weight = 1.0
+    default_multiplicity_correction = False
+    default_independence_scale = 3.0
+
+    def __init__(self, head_name, regression_loss, *,
+                 n_vectors, n_scales, sigmas=None):
+        super(CompositeLoss, self).__init__()
+
+        if sigmas is None:
+            sigmas = [[1.0] for _ in range(n_vectors)]
+
+        self.background_weight = self.default_background_weight
+        self.multiplicity_correction = self.default_multiplicity_correction
+        self.independence_scale = self.default_independence_scale
+
+        self.n_vectors = n_vectors
+        self.n_scales = n_scales
+        if self.n_scales:
+            assert len(sigmas) == n_scales
+        LOG.debug('%s: n_vectors = %d, n_scales = %d, len(sigmas) = %d',
+                  head_name, n_vectors, n_scales, len(sigmas))
+
+        if sigmas is not None:
+            assert len(sigmas) == n_vectors
+            scales_to_kp = torch.tensor(sigmas)
+            scales_to_kp = torch.unsqueeze(scales_to_kp, 0)
+            scales_to_kp = torch.unsqueeze(scales_to_kp, -1)
+            scales_to_kp = torch.unsqueeze(scales_to_kp, -1)
+            self.register_buffer('scales_to_kp', scales_to_kp)
+        else:
+            self.scales_to_kp = None
+
+        self.regression_loss = regression_loss or laplace_loss
+        self.field_names = (
+            ['{}.c'.format(head_name)] +
+            ['{}.vec{}'.format(head_name, i + 1) for i in range(self.n_vectors)] +
+            ['{}.scales{}'.format(head_name, i + 1) for i in range(self.n_scales)]
+        )
+
+        self.bce_blackout = None
+
+    @classmethod
+    def cli(cls, parser):
+        # group = parser.add_argument_group('composite loss')
+        pass
+
+    @classmethod
+    def apply_args(cls, args):
+        cls.default_background_weight = args.background_weight
+        cls.default_fixed_size = args.paf_fixed_size
+        cls.default_aspect_ratio = args.paf_aspect_ratio
+
+    def forward(self, x, t):  # pylint: disable=arguments-differ
+        """
+        print("________IN_FORWARD___________")
+        print("x")
+        print (x[0].shape)
+        print ("t")
+        print(t[0].shape)
+        print("len x")
+        print(len(x))
+        print("scales")
+        print(self.n_scales)
+        print("vectors")
+        print(self.n_vectors)"""
+        assert len(x) == 1 + 2 * self.n_vectors + self.n_scales
+        x_intensity = x[0]
+        x_regs = x[1:1 + self.n_vectors]
+        x_spreads = x[1 + self.n_vectors:1 + 2 * self.n_vectors]
+        x_scales = []
+        if self.n_scales:
+            x_scales = x[1 + 2 * self.n_vectors:1 + 2 * self.n_vectors + self.n_scales]
+
+        assert len(t) == 1 + self.n_vectors + 1
+        target_intensity = t[0]
+        target_regs = t[1:1 + self.n_vectors]
+        target_scale = t[-1]
+
+        bce_masks = (target_intensity[:, :-1] + target_intensity[:, -1:]) > 0.5
+        if not torch.any(bce_masks):
+            return None, None, None
+
+        batch_size = x_intensity.shape[0]
+        LOG.debug('batch size = %d', batch_size)
+
+        bce_x_intensity = x_intensity
+        bce_target_intensity = target_intensity[:, :-1]
+        if self.bce_blackout:
+            bce_x_intensity = bce_x_intensity[:, self.bce_blackout]
+            bce_masks = bce_masks[:, self.bce_blackout]
+            bce_target_intensity = bce_target_intensity[:, self.bce_blackout]
+
+        LOG.debug('BCE: target = %s, mask = %s', bce_target_intensity.shape, bce_masks.shape)
+        bce_target = torch.masked_select(bce_target_intensity, bce_masks)
+        bce_weight = None
+        if self.background_weight != 1.0:
+            bce_weight = torch.ones_like(bce_target)
+            bce_weight[bce_target == 0] = self.background_weight
+        ce_loss = torch.nn.functional.binary_cross_entropy_with_logits(
+            torch.masked_select(bce_x_intensity, bce_masks),
+            bce_target,
+            weight=bce_weight,
+        )
+
+        reg_losses = [None for _ in target_regs]
+        reg_masks = target_intensity[:, :-1] > 0.5
+        if torch.any(reg_masks):
+            weight = None
+            if self.multiplicity_correction:
+                assert len(target_regs) == 2
+                lengths = torch.norm(target_regs[0] - target_regs[1], dim=2)
+                multiplicity = (lengths - 3.0) / self.independence_scale
+                multiplicity = torch.clamp(multiplicity, min=1.0)
+                multiplicity = torch.masked_select(multiplicity, reg_masks)
+                weight = 1.0 / multiplicity
+
+            reg_losses = []
+            for i, (x_reg, x_spread, target_reg) in enumerate(zip(x_regs, x_spreads, target_regs)):
+                if hasattr(self.regression_loss, 'scale'):
+                    assert self.scales_to_kp is not None
+                    self.regression_loss.scale = torch.masked_select(
+                        torch.clamp(target_scale * self.scales_to_kp[i], 0.1, 1000.0),  # pylint: disable=unsubscriptable-object
+                        reg_masks,
+                    )
+
+                reg_losses.append(self.regression_loss(
+                    torch.masked_select(x_reg[:, :, 0], reg_masks),
+                    torch.masked_select(x_reg[:, :, 1], reg_masks),
+                    torch.masked_select(x_spread, reg_masks),
+                    torch.masked_select(target_reg[:, :, 0], reg_masks),
+                    torch.masked_select(target_reg[:, :, 1], reg_masks),
+                    weight=weight,
+                ) / 1000.0 / batch_size)
+
+        scale_losses = []
+        if x_scales:
+            scale_losses = [
+                torch.nn.functional.l1_loss(
+                    torch.masked_select(x_scale, reg_masks),
+                    torch.masked_select(target_scale * scale_to_kp, reg_masks),
+                    reduction='sum',
+                ) / 1000.0 / batch_size
+                for x_scale, scale_to_kp in zip(x_scales, self.scales_to_kp)
+            ]
+
+        return [ce_loss] + reg_losses + scale_losses
+
+
+def cli(parser):
+    group = parser.add_argument_group('losses')
+    group.add_argument('--lambdas', default=[30.0, 2.0, 2.0, 50.0, 3.0, 3.0],
+                       type=float, nargs='+',
+                       help='prefactor for head losses')
+    group.add_argument('--r-smooth', type=float, default=0.0,
+                       help='r_{smooth} for SmoothL1 regressions')
+    group.add_argument('--regression-loss', default='laplace',
+                       choices=['smoothl1', 'smootherl1', 'l1', 'laplace'],
+                       help='type of regression loss')
+    group.add_argument('--background-weight', default=1.0, type=float,
+                       help='[experimental] BCE weight of background')
+    group.add_argument('--paf-multiplicity-correction',
+                       default=False, action='store_true',
+                       help='[experimental] use multiplicity correction for PAF loss')
+    group.add_argument('--paf-independence-scale', default=3.0, type=float,
+                       help='[experimental] linear length scale of independence for PAF regression')
+
+
+def factory_from_args(args):
+    for loss in Loss.__subclasses__():
+        loss.apply_args(args)
+
+    return factory(
+        args.headnets,
+        args.lambdas,
+        args.regression_loss,
+        args.r_smooth,
+        args.device,
+    )
+
+
+def loss_parameters(head_name):
+    n_vectors = None
+    if 'pif' in head_name:
+        n_vectors = 1
+    elif 'paf' in head_name:
+        n_vectors = 2
+
+    n_scales = None
+    if 'pif' in head_name:
+        n_scales = 1
+    elif 'paf' in head_name:
+        n_scales = 0
+
+    sigmas = None
+    if head_name == 'pif':
+        sigmas = [COCO_SIGMAS]
+    elif head_name in ('paf', 'paf19', 'wpaf'):
+        sigmas = [
+            [COCO_SIGMAS[j1i - 1] for j1i, _ in COCO_SKELETON],
+            [COCO_SIGMAS[j2i - 1] for _, j2i in COCO_SKELETON],
+        ]
+    elif head_name in ('paf16',):
+        sigmas = [
+            [COCO_SIGMAS[j1i - 1] for j1i, _ in KINEMATIC_TREE_SKELETON],
+            [COCO_SIGMAS[j2i - 1] for _, j2i in KINEMATIC_TREE_SKELETON],
+        ]
+    elif head_name in ('paf44',):
+        sigmas = [
+            [COCO_SIGMAS[j1i - 1] for j1i, _ in DENSER_COCO_PERSON_SKELETON],
+            [COCO_SIGMAS[j2i - 1] for _, j2i in DENSER_COCO_PERSON_SKELETON],
+        ]
+
+    return {
+        'n_vectors': n_vectors,
+        'n_scales': n_scales,
+        'sigmas': sigmas,
+    }
+
+
+def factory(head_names, lambdas, reg_loss_name=None, r_smooth=None, device=None):
+    if isinstance(head_names[0], (list, tuple)):
+        return [factory(hn, lam, reg_loss_name, r_smooth, device)
+                for hn, lam in zip(head_names, lambdas)]
+
+    head_names = [h for h in head_names if h not in ('skeleton', 'tskeleton')]
+
+    if reg_loss_name == 'smoothl1':
+        reg_loss = SmoothL1Loss(r_smooth)
+    elif reg_loss_name == 'l1':
+        reg_loss = l1_loss
+    elif reg_loss_name == 'laplace':
+        reg_loss = laplace_loss
+    elif reg_loss_name is None:
+        reg_loss = laplace_loss
+    else:
+        raise Exception('unknown regression loss type {}'.format(reg_loss_name))
+
+    losses = [CompositeLoss(head_name, reg_loss, **loss_parameters(head_name))
+              for head_name in head_names]
+    loss = MultiHeadLoss(losses, lambdas)
+
+    if device is not None:
+        loss = loss.to(device)
+
+    return loss
