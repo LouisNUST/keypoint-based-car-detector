@@ -1,28 +1,30 @@
 # openpifpaf
 
-Continuously tested on Linux, MacOS and Windows: [![Build Status](https://travis-ci.org/vita-epfl/openpifpaf.svg?branch=master)](https://travis-ci.org/vita-epfl/openpifpaf)
 
-> We propose a new bottom-up method for multi-person 2D human pose
+> We propose a new bottom-up method for multi-car 2D human pose
 > estimation that is particularly well suited for urban mobility such as self-driving cars
 > and delivery robots. The new method, PifPaf, uses a Part Intensity Field (PIF) to
-> localize body parts and a Part Association Field (PAF) to associate body parts with each other to form
-> full human poses.
+> localize body parts and a Part Association Field (PAF) to associate car parts with each other to form
+> full car skeleton.
 > Our method outperforms previous methods at low resolution and in crowded,
 > cluttered and occluded scenes
 > thanks to (i) our new composite field PAF encoding fine-grained information and (ii) the choice of Laplace loss for regressions which incorporates a notion of uncertainty.
 > Our architecture is based on a fully
 > convolutional, single-shot, box-free design.
-> We perform on par with the existing
-> state-of-the-art bottom-up method on the standard COCO keypoint task
-> and produce state-of-the-art results on a modified COCO keypoint task for
-> the transportation domain.
-
 
 # Openpifpaf for cars (and as many thinks as you want)
 
-# Install
+# Introduction
 
 This work is part of a project aiming to detect cars with the openpifpaf framework by creating a skeleton arounf the frames of the cars. This leaded to turn the [original code](https://github.com/vita-epfl/openpifpaf) and to generalize it to any kind of dataset.
+
+
+![Carfusion validation](docs/validation.png)
+
+![Carfusion nuscenes](docs/nuscenes.png)
+
+
+# Install
 
 Python 3 is required. Python 2 is not supported.
 Do not clone this repository
@@ -31,11 +33,6 @@ and make sure there is no folder named `openpifpaf` in your current directory.
 ```sh
 pip3 install openpifpaf
 ```
-
-For a live demo, we recommend to try the
-[openpifpafwebdemo](https://github.com/vita-epfl/openpifpafwebdemo) project.
-Alternatively, `openpifpaf.webcam` provides a live demo as well.
-It requires OpenCV.
 
 For development of the openpifpaf source code itself, you need to clone this repository and then:
 
@@ -56,7 +53,7 @@ A few modification needs to be done nonetheless in three functions of pifpaf:
 * dataset.py
 * evalcoco.py
 
-Also, one needs to feed a dataset that was preprocessed in the coco format to be able to train this algortihtm. An example of this is provided with the processed dataset of [carFusion](http://www.cs.cmu.edu/~mvo/index_files/Papers/CarFusion.pdf) preprocessed to fit the formatting [link to the github]. 
+Also, one needs to feed a dataset that was preprocessed in the coco format to be able to train this algortihtm. An example of this is provided with the processed dataset of [carFusion](http://www.cs.cmu.edu/~mvo/index_files/Papers/CarFusion.pdf) preprocessed to fit the [formatting](https://github.com/peterbonnesoeur/keypoint-based-car-detector/tree/master/carfusion_to_coco). 
 
 - **Data.py**
 
@@ -71,12 +68,7 @@ In eval_coco.py, set the name of the annotations and image directory for the val
 
 # Training 
 
-![Carfusion training](docs/training.png)
-
-![Carfusion validation](docs/validation.png)
-
-![Carfusion nuscenes](docs/nuscenes.png)
-
+!
 ___
 
 ```
@@ -91,22 +83,6 @@ ___
 
 [CVPR 2019 website](http://openaccess.thecvf.com/content_CVPR_2019/html/Kreiss_PifPaf_Composite_Fields_for_Human_Pose_Estimation_CVPR_2019_paper.html),
 [arxiv.org/abs/1903.06593](https://arxiv.org/abs/1903.06593)
-
-# Demo
-
-![example image with overlaid pose skeleton](docs/coco/000000081988.jpg.skeleton.png)
-
-Image credit: "[Learning to surf](https://www.flickr.com/photos/fotologic/6038911779/in/photostream/)" by fotologic which is licensed under [CC-BY-2.0].<br />
-Created with:
-`python3 -m openpifpaf.predict --show docs/coco/000000081988.jpg`
-
-More demos:
-* [openpifpafwebdemo](https://github.com/vita-epfl/openpifpafwebdemo) project (best performance)
-* OpenPifPaf running in your browser: https://vita-epfl.github.io/openpifpafwebdemo/ (experimental)
-* the `openpifpaf.webcam` command (requires OpenCV)
-* [Google Colab demo](https://colab.research.google.com/drive/1H8T4ZE6wc0A9xJE4oGnhgHpUpAH5HL7W)
-
-<img src="docs/wave3.gif" height=250 alt="example image" />
 
 
 
@@ -126,22 +102,19 @@ Tools to work with models:
 
 # Pre-trained Models
 
-Performance metrics with version 0.9.0 on the COCO val set obtained with a GTX1080Ti:
+Performance metrics with on the carfusion training set are obtained with a TITAN graphics cards:
 
-| Backbone        | AP       | APᴹ      | APᴸ      | t_{total} [ms]  | t_{dec} [ms] |
-|----------------:|:--------:|:--------:|:--------:|:---------------:|:------------:|
-| shufflenetv2x1  | __50.2__ | 47.0     | 55.4     | 56              | 44           |
-| shufflenetv2x2  | __58.5__ | 55.2     | 63.6     | 60              | 41           |
-| resnet50        | __63.3__ | 60.7     | 67.8     | 79              | 38           |
-| resnext50       | __63.8__ | 61.1     | 68.1     | 93              | 33           |
-| resnet101       | __66.5__ | 63.1     | 71.9     | 100             | 35           |
-| resnet152       | __67.8__ | 64.4     | 73.3     | 122             | 30           |
+| Backbone        | AP       |  AR       | t_{total} [ms]  | t_{dec} [ms] | long_edges | Square_edges |
+|----------------:|:--------:|:---------:|:---------------:|:------------:|:----------:|:------------:|
+| resnet101       | __68.5__ | 70.1      |     521         | 257          |1800        |   250        |
+| resnet101       | __69.5__ | 70.9      |     518         | 255          |1800        |   420        |
+| resnet101       | __70.0__ | 71.4      |     440         | 233          |1800        |   800        |
 
-Pretrained model files are shared in this
-__[Google Drive](https://drive.google.com/drive/folders/13cXISujwI6-D3ijK6fGnoSNOthKUQWnN?usp=sharing)__
-which you can put into your `outputs` folder. The pretrained models are
-downloaded automatically when
-using the command line option `--checkpoint backbonenameasintableabove`.
+
+Pretrained model files are shared in the releases : 
+__[Github](https://github.com/peterbonnesoeur/keypoint-based-car-detector/releases)__
+which you can put into your `outputs` folder.
+To use the pretrained models, use their name when the checkpoint is needed with (--checkpoint 'name_package'.pkl).
 
 To visualize logs:
 
@@ -160,6 +133,10 @@ See [studies.ipynb](docs/studies.ipynb) for previous studies.
 
 The exact training command that was used for a model is in the first
 line of the training log file.
+
+**IMPORTANT**
+
+Before training, please take a look at 2 factors : the random rescaling of the images (*train.py [transforms.RescaleRelative - line 119]*) and the data augmentation parameters(*transforms.py [Train_TRANSFORM - line 598]*). Those parameters greatly influence the final results of your training and can be tunned to optimize their results for a peculiar application.
 
 Train a ResNet model:
 
@@ -198,47 +175,39 @@ time CUDA_VISIBLE_DEVICES=0,1 python3 -m openpifpaf.train \
   --ema=0.03
 ```
 
+
+The command used to train our models was the following one :
+
+
+```sh
+time CUDA_VISIBLE_DEVICES=0,1 python3 -m openpifpaf.train 
+  --lr=1e-3  
+  --momentum=0.95  
+  --epochs=50   
+  --lr-decay 35  
+  --basenet=resnet101  
+  --headnets pif paf skeleton  
+  --square-edge=420       (or 250, or 800)
+  --rescale-images 1.0
+```
+
 You can refine an existing model with the `--checkpoint` option.
-
-To produce evaluations at every epoch, check the directory for new
-snapshots every 5 minutes:
-
-```
-while true; do \
-  CUDA_VISIBLE_DEVICES=0 find outputs/ -name "resnet101block5-pif-paf-l1-190109-113346.pkl.epoch???" -exec \
-    python3 -m openpifpaf.eval_coco --checkpoint {} -n 500 --long-edge=641 --skip-existing \; \
-  ; \
-  sleep 300; \
-done
-```
 
 It is now also possible to use a previous pretrained model for a peculair kind a skeleton (for example, with 14 keypoints) to train a new model with a different sumber of keypoints (for example 17). To do so, just add the command checkpoint during your training to use the pretrained model desired:
 
-``sh
-time CUDA_VISIBLE_DEVICES=0,1 python3 -m openpifpaf.train \
-  --batch-size=8 \
-  --loader-workers=8 \
-  --basenet=resnet50block5 \
-  --checkpoint=resnet50\
-  --head-quad=1 \
-  --headnets pif paf \
-  --lr=1e-3 \
-  --momentum=0.95 \
-  --epochs=75 \
-  --lr-decay 60 70 \
-  --lambdas 30 2 2 50 3 3 \
-  --freeze-base=1
-``
+```sh
+time CUDA_VISIBLE_DEVICES=0,1 python3 -m openpifpaf.train 
+  --lr=1e-3  
+  --momentum=0.95  
+  --epochs=50   
+  --lr-decay 35  
+  --basenet=resnet101  
+  --headnets pif paf skeleton  
+  --square-edge=420       (or 250, or 800)
+  --rescale-images 1.0
+```
 
 In this case, the value in 'basenet' will be the name of the trained model.
-
-# Person Skeletons
-
-COCO / kinematic tree / dense:
-
-<img src="docs/skeleton_coco.png" height="250" /><img src="docs/skeleton_kinematic_tree.png" height="250" /><img src="docs/skeleton_dense.png" height="250" />
-
-Created with `python3 -m openpifpaf.data`.
 
 
 # Video
@@ -277,4 +246,3 @@ In this process, ffmpeg scales the video to `641px` which can be adjusted.
 [CC-BY-2.0]: https://creativecommons.org/licenses/by/2.0/
 
 ------
-See how pifpaf load image -> attahcment keyp
