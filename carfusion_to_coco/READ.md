@@ -29,4 +29,16 @@ Be carefull to remove the zip files if it is not done automatically
 
 ## Process the data 
 
-To process the data of the 
+To process the data of the carFusion dataset, we need to open the notebook conversion_to_coco.ipynb which will convert our annotations to a COCO formatting. 
+It will allow pifpaf to read those informations in order to process them. 
+3 main parameters needs to be providied : 
+
+- The path of the carfusion dataset 'dir_carfusion' (be sure that there is no zip files in this folder)
+
+- The 'IOU' thresholding (default = 0.3) to detect the cars not annotated in the carfusion dataset (More explanations in the notebook).
+
+- The type of detection 'car_only' (default = False) (wether it should detect only car)s or trucks and vans as well).
+
+## Visualize your data
+
+Finally, to vizualize The processed data, a visualizer notebook is provided. To use it, put your processed jsons files in the vraible 'jsons' then run the notebook.
