@@ -25,6 +25,8 @@ feel free to modify the destination of the dataset by modifying the 'dest_path' 
 
 python downlad_carfusion.py
 
+Be carefull to remove the zip files if it is not done automatically
+
 ## Process the data 
 
 To process the data of the 

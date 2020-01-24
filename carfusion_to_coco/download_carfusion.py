@@ -1,57 +1,22 @@
 from google_drive_downloader import GoogleDriveDownloader as gdd
 
-gdd.download_file_from_google_drive(file_id='1L2azKaYabCQ0YWwGTnN0_uhNgnlACigM',
-                                    dest_path='./datasets/carfusion/train/car_craig1.zip',
-                                    unzip=True,
-                                    showsize=True,
-                                    overwrite=True)
+# Modify the paths to change the destination of the dataset
 
-gdd.download_file_from_google_drive(file_id='1Z15rX038FyRW62DOPEJW16bZZIj8LPC0',
-                                    dest_path='./datasets/carfusion/train/car_craig2.zip',
-                                    unzip=True,
-                                    showsize=True,
-                                    overwrite=True)
-gdd.download_file_from_google_drive(file_id='1W0Ty7vZbnAGyvf0RNeVXcNJV6e7kcqzZ',
-                                    dest_path='./datasets/carfusion/train/car_fifth1.zip',
-                                    unzip=True,
-                                    showsize=True,
-                                    overwrite=True)
+from google_drive_downloader import GoogleDriveDownloader as gdd
+import os
 
-gdd.download_file_from_google_drive(file_id='1T253FkwEfKEJyegHNztRPQX_bSjZUznf',
-                                    dest_path='./datasets/carfusion/train/car_fifth2.zip',
-                                    unzip=True,
-                                    showsize=True,
-                                    overwrite=True)
+file_ids = ['1L2azKaYabCQ0YWwGTnN0_uhNgnlACigM', '1Z15rX038FyRW62DOPEJW16bZZIj8LPC0', '1W0Ty7vZbnAGyvf0RNeVXcNJV6e7kcqzZ', '1T253FkwEfKEJyegHNztRPQX_bSjZUznf',
+           '1uuDYPidIztuOHbDbP2hQv_ocGAnWPbGJ', '1R3xpUKjHPFOlOj8SZIV9hmtndFMw95iX', , '1goDsHDSU5dkJFoy0phTFD2brXf4Ou6sL',  '1AOFQrLQTkNs1djnfI7y-ZeeZQeqnHNQK',
+           '1dYqJtokx1pMEtWH8XK9b_R481jv2ypn2', '12vSzUh_e3oMYVKewUeEzn9Gv3P_wnGYi']
 
+paths = ['./datasets/carfusion/train/car_craig1.zip','./datasets/carfusion/train/car_craig2.zip', './datasets/carfusion/train/car_fifth1.zip', './datasets/carfusion/train/car_fifth2.zip',
+         './datasets/carfusion/train/car_morewood1.zip', './datasets/carfusion/train/car_morewood2.zip',  './datasets/carfusion/train/car_butler1.zip', './datasets/carfusion/train/car_butler2.zip',
+         './datasets/carfusion/test/car_penn1.zip','./datasets/carfusion/test/car_penn2.zip']
 
-gdd.download_file_from_google_drive(file_id='1uuDYPidIztuOHbDbP2hQv_ocGAnWPbGJ',
-                                    dest_path='./datasets/carfusion/train/car_morewood1.zip',
-                                    unzip=True,
-                                    showsize=True,
-                                    overwrite=True)
-gdd.download_file_from_google_drive(file_id='1R3xpUKjHPFOlOj8SZIV9hmtndFMw95iX',
-                                    dest_path='./datasets/carfusion/train/car_morewood2.zip',
-                                    unzip=True,
-                                    showsize=True,
-                                    overwrite=True)
-gdd.download_file_from_google_drive(file_id='1goDsHDSU5dkJFoy0phTFD2brXf4Ou6sL',
-                                    dest_path='./datasets/carfusion/train/car_butler1.zip',
-                                    unzip=True,
-                                    showsize=True,
-                                    overwrite=True)
-gdd.download_file_from_google_drive(file_id='1AOFQrLQTkNs1djnfI7y-ZeeZQeqnHNQK',
-                                    dest_path='./datasets/carfusion/train/car_butler2.zip',
-                                    unzip=True,
-                                    showsize=True,
-                                    overwrite=True)
-gdd.download_file_from_google_drive(file_id='1dYqJtokx1pMEtWH8XK9b_R481jv2ypn2',
-                                    dest_path='./datasets/carfusion/test/car_penn1.zip',
-                                    unzip=True,
-                                    showsize=True,
-                                    overwrite=True)
-gdd.download_file_from_google_drive(file_id='12vSzUh_e3oMYVKewUeEzn9Gv3P_wnGYi',
-                                    dest_path='./datasets/carfusion/test/car_penn2.zip',
-                                    unzip=True,
-                                    showsize=True,
-                                    overwrite=True)
-
+for path, file_id in paths, file_ids : 
+    gdd.download_file_from_google_drive(file_id='1L2azKaYabCQ0YWwGTnN0_uhNgnlACigM',
+                                        dest_path=path,
+                                        unzip=True,
+                                        showsize=True,
+                                        overwrite=True)
+    os.remove(path) #Remove the zip files
