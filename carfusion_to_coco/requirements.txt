@@ -14,4 +14,3 @@ tensorflow
 imageai
 argparse
 os-sys
-json
