@@ -44,7 +44,7 @@ KINEMATIC_TREE_SKELETON = [
 #W consider a link between the mirror and the front light of the cars
 
 
-#? Keypoints for the humans
+
 COCO_KEYPOINTS = [
     'front_left_wheel',         #1          0
     'front_right_wheel',        #2          1
@@ -62,7 +62,7 @@ COCO_KEYPOINTS = [
     'upper_right_rear',         #14         13
 ]
 
-
+#? Keypoints for the cars
 COCO_KEYPOINTS_CAR = [
     'front_left_wheel',         #1          0
     'front_right_wheel',        #2          1
@@ -80,6 +80,7 @@ COCO_KEYPOINTS_CAR = [
     'upper_right_rear',         #14         13
 ]
 
+#? Keypoints for the humans
 COCO_KEYPOINTS_PERSON = [
     'nose',            # 1
     'left_eye',        # 2

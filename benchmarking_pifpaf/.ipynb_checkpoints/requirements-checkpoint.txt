@@ -1,0 +1,7 @@
+numpy
+pysparkling
+argparse
+datetime
+logging
+os
+json

@@ -1,0 +1,14 @@
+numpy
+googledrivedownloader
+shapely
+glob3
+opencv-python
+shapely
+jupyter
+requests
+pycocotools
+matplotlib
+scikit-image
+Pillow
+tensorflow
+imageai
