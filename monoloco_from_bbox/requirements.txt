@@ -1,5 +1,4 @@
 numpy
-time
 torch
 os-sys
 collections-extended
