@@ -1,0 +1,13 @@
+2020-01-07 16:10:38,037:INFO: Training arguments: 
+epochs: 150 
+batch_size: 256 
+dropout: 0.2
+baseline: False 
+learning rate: 0.002 
+scheduler step: 20 
+scheduler gamma: 0.9  
+input_size: 28 
+hidden_size: 256 
+n_stages: 3 
+r_seed: 1
+input_file: /data/bonnesoeur-data/monoloco/car_kitti/json/in/../out/joints-kitti-200107-1537.json

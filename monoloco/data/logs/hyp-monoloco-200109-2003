@@ -1,0 +1,1 @@
+{"lr": 0.0011420592887421996, "joints": "/data/bonnesoeur-data/monoloco/box_nuscenes/json/joints-nuscenes-200102-2335.json", "bs": 1024, "baseline": false, "sched_gamma": 0.8, "sched_step": 30, "hidden_size": 256, "n_stage": 3, "acc_val": 3.491036015341763, "best_epoch": 147, "random_seed": 1}

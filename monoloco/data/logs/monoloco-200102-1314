@@ -1,0 +1,26 @@
+2020-01-02 13:14:11,227:INFO: Training arguments: 
+epochs: 150 
+batch_size: 256 
+dropout: 0.2
+baseline: False 
+learning rate: 0.002 
+scheduler step: 20 
+scheduler gamma: 0.9  
+input_size: 18 
+hidden_size: 256 
+n_stages: 3 
+r_seed: 1
+input_file: /data/bonnesoeur-data/monoloco/box_nuscenes/json//joints-nuscenes_teaser-200102-1307.json
+2020-01-02 13:14:44,877:INFO: Training arguments: 
+epochs: 150 
+batch_size: 256 
+dropout: 0.2
+baseline: False 
+learning rate: 0.002 
+scheduler step: 20 
+scheduler gamma: 0.9  
+input_size: 18 
+hidden_size: 256 
+n_stages: 3 
+r_seed: 1
+input_file: /data/bonnesoeur-data/monoloco/box_nuscenes/json//joints-nuscenes_teaser-200102-1307.json

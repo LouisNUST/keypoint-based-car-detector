@@ -1,0 +1,3 @@
+python -m monoloco.run train --joints /home/maximebonnesoeur/semester_project/result_processing_nuscenes/joints-nuscenes-191015-1808.json
+
+python -m monoloco.run predict --glob /Users/peterbonnesoeur/Downloads/img1.jpg --output_type combined --model /Users/peterbonnesoeur/Documents/epfl\ cours/semester_project/monoloco/data/models/monoloco-190719-0923.pkl  --n_dropout 50 --z_max 25

@@ -1,0 +1,42 @@
+2020-01-07 16:15:05,152:INFO: Training arguments: 
+epochs: 150 
+batch_size: 256 
+dropout: 0.2
+baseline: False 
+learning rate: 0.002 
+scheduler step: 20 
+scheduler gamma: 0.9  
+input_size: 28 
+hidden_size: 256 
+n_stages: 3 
+r_seed: 1
+input_file: /data/bonnesoeur-data/monoloco/car_kitti/json/in/../out/joints-kitti-200107-1614.json
+2020-01-07 16:15:14,346:INFO: Training arguments: 
+epochs: 150 
+batch_size: 256 
+dropout: 0.2
+baseline: False 
+learning rate: 0.002 
+scheduler step: 20 
+scheduler gamma: 0.9  
+input_size: 28 
+hidden_size: 256 
+n_stages: 3 
+r_seed: 1
+input_file: /data/bonnesoeur-data/monoloco/car_kitti/json/in/../out/joints-kitti-200107-1614.json
+2020-01-07 16:15:19,539:INFO: Sizes of the dataset: {'train': 7077, 'val': 7724, 'test': 0}
+2020-01-07 16:16:36,520:INFO: Training:
+Training complete in 1m 12s
+2020-01-07 16:16:36,520:INFO: Best validation Accuracy: 2.165
+2020-01-07 16:16:36,520:INFO: Saved weights of the model at epoch: 104
+2020-01-07 16:16:37,365:INFO: Evaluation:
+Average distance on the val set: 2.17
+2020-01-07 16:16:37,365:INFO: Aleatoric Uncertainty: 3.78, inside the interval: 51.9%
+
+2020-01-07 16:16:37,368:INFO: val error in cluster 10 = 2.20 for 1480 instances. Aleatoric of 12.73 with 52.4% inside the interval
+2020-01-07 16:16:37,373:INFO: val error in cluster 20 = 1.38 for 3361 instances. Aleatoric of 1.14 with 52.0% inside the interval
+2020-01-07 16:16:37,376:INFO: val error in cluster 30 = 2.36 for 2095 instances. Aleatoric of 1.99 with 53.3% inside the interval
+2020-01-07 16:16:37,378:INFO: val error in cluster >30 = 4.93 for 788 instances. Aleatoric of 3.01 with 46.2% inside the interval
+2020-01-07 16:16:37,382:INFO: 
+model saved: data/models/monoloco-200107-1615.pkl 
+

@@ -1,0 +1,22 @@
+2020-01-02 21:34:25,794:INFO: Training arguments: 
+epochs: 150 
+batch_size: 256 
+dropout: 0.2
+baseline: False 
+learning rate: 0.002 
+scheduler step: 20 
+scheduler gamma: 0.9  
+input_size: 18 
+hidden_size: 256 
+n_stages: 3 
+r_seed: 1
+input_file: /data/bonnesoeur-data/monoloco/box_nuscenes/json/joints-nuscenes_teaser-200102-2127.json
+2020-01-02 21:34:48,497:INFO: Sizes of the dataset: {'train': 73569, 'val': 30085, 'test': 0}
+2020-01-02 21:46:19,249:INFO: Training:
+Training complete in 11m 25s
+2020-01-02 21:46:19,249:INFO: Best validation Accuracy: 3.629
+2020-01-02 21:46:19,249:INFO: Saved weights of the model at epoch: 146
+2020-01-02 21:46:23,224:INFO: Evaluation:
+Average distance on the val set: 3.63
+2020-01-02 21:46:23,224:INFO: Aleatoric Uncertainty: 3.35, inside the interval: 59.8%
+

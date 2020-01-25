@@ -1,0 +1,29 @@
+2020-01-03 00:34:41,151:INFO: Training arguments: 
+epochs: 150 
+batch_size: 256 
+dropout: 0.2
+baseline: False 
+learning rate: 0.002 
+scheduler step: 20 
+scheduler gamma: 0.9  
+input_size: 18 
+hidden_size: 256 
+n_stages: 3 
+r_seed: 1
+input_file: /data/bonnesoeur-data/monoloco/box_nuscenes/json/joints-nuscenes-200102-2335.json
+2020-01-03 00:37:11,125:INFO: Sizes of the dataset: {'train': 604764, 'val': 118444, 'test': 0}
+2020-01-03 01:32:21,207:INFO: Training:
+Training complete in 55m 6s
+2020-01-03 01:32:21,208:INFO: Best validation Accuracy: 3.847
+2020-01-03 01:32:21,208:INFO: Saved weights of the model at epoch: 145
+2020-01-03 01:32:53,657:INFO: Evaluation:
+Average distance on the val set: 3.85
+2020-01-03 01:32:53,657:INFO: Aleatoric Uncertainty: 4.06, inside the interval: 60.0%
+
+2020-01-03 01:32:53,666:INFO: val error in cluster 10 = 0.70 for 10222 instances. Aleatoric of 3.26 with 41.3% inside the interval
+2020-01-03 01:32:53,675:INFO: val error in cluster 20 = 0.70 for 10222 instances. Aleatoric of 3.26 with 41.3% inside the interval
+2020-01-03 01:32:53,708:INFO: val error in cluster 30 = 1.67 for 42570 instances. Aleatoric of 1.85 with 59.4% inside the interval
+2020-01-03 01:32:53,757:INFO: val error in cluster >30 = 5.75 for 65652 instances. Aleatoric of 5.62 with 63.4% inside the interval
+2020-01-03 01:32:53,760:INFO: 
+model saved: data/models/monoloco-200103-0034.pkl 
+

@@ -1,0 +1,22 @@
+2019-10-08 20:29:21,065:INFO: Training arguments: 
+epochs: 150 
+batch_size: 256 
+dropout: 0.2
+baseline: False 
+learning rate: 0.002 
+scheduler step: 20 
+scheduler gamma: 0.9  
+input_size: 18 
+hidden_size: 256 
+n_stages: 3 
+r_seed: 1
+input_file: /Volumes/Samsung_T5/semester_project/nuscenes/results/joints-nuscenes_mini-191003-1319.json
+2019-10-08 20:29:23,374:INFO: Sizes of the dataset: {'train': 5421, 'val': 4857, 'test': 0}
+2019-10-08 20:33:21,880:INFO: Training:
+Training complete in 3m 58s
+2019-10-08 20:33:21,882:INFO: Best validation Accuracy: 33.502
+2019-10-08 20:33:21,882:INFO: Saved weights of the model at epoch: 16
+2019-10-08 20:33:22,358:INFO: Evaluation:
+Average distance on the val set: 33.50
+2019-10-08 20:33:22,359:INFO: Aleatoric Uncertainty: -inf, inside the interval: 0.0%
+

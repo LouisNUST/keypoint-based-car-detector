@@ -1,0 +1,14 @@
+2019-12-28 12:40:34,285:INFO: Training arguments: 
+epochs: 150 
+batch_size: 256 
+dropout: 0.2
+baseline: False 
+learning rate: 0.002 
+scheduler step: 20 
+scheduler gamma: 0.9  
+input_size: 28 
+hidden_size: 256 
+n_stages: 3 
+r_seed: 1
+input_file: /data/bonnesoeur-data/monoloco/box_nuscenes/json/joints-nuscenes_teaser-191219-2303.json
+2019-12-28 12:40:46,733:INFO: Sizes of the dataset: {'train': 36657, 'val': 14919, 'test': 0}

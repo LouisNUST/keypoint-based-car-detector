@@ -1,0 +1,1 @@
+{"lr": 0.005322469259746164, "joints": "/data/bonnesoeur-data/monoloco/car_kitti/json/in/../out/joints-kitti-200107-1614.json", "bs": 64, "baseline": false, "sched_gamma": 0.9, "sched_step": 30, "hidden_size": 256, "n_stage": 3, "acc_val": 2.071875507383381, "best_epoch": 142, "random_seed": 1}

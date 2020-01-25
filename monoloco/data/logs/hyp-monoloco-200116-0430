@@ -1,0 +1,1 @@
+{"lr": 0.0018842083199166549, "joints": "/data/bonnesoeur-data/monoloco/car_nuscenes/json/out/joints-nuscenes-200115-0759.json", "bs": 2048, "baseline": false, "sched_gamma": 1, "sched_step": 10, "hidden_size": 256, "n_stage": 3, "acc_val": 2.326716087686646, "best_epoch": 66, "random_seed": 1}

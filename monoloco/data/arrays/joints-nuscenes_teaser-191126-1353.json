@@ -1,0 +1,1 @@
+{"train": {"X": [], "Y": [], "names": [], "kps": [], "boxes_3d": [], "K": [], "clst": {}}, "val": {"X": [], "Y": [], "names": [], "kps": [], "boxes_3d": [], "K": [], "clst": {}}, "test": {"X": [], "Y": [], "names": [], "kps": [], "boxes_3d": [], "K": [], "clst": {}}}
