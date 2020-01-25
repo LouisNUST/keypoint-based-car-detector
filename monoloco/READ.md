@@ -99,13 +99,9 @@ mkdir arrays models kitti nuscenes logs
 
 ### Pre-trained Models
 * Download a MonoLoco pre-trained model from 
-[Google Drive](https://drive.google.com/open?id=1F7UG1HPXGlDD_qL-AN5cv2Eg-mhdQkwv) and save it in `data/models` 
+[Github](https://github.com/peterbonnesoeur/keypoint-based-car-detector/releases) and save it in `data/models` 
 (default) or in any folder and call it through the command line option `--model <model path>`
-* Pifpaf pre-trained model will be automatically downloaded at the first run. 
-Three standard, pretrained models are available when using the command line option 
-`--checkpoint resnet50`, `--checkpoint resnet101` and `--checkpoint resnet152`.
-Alternatively, you can download a Pifpaf pre-trained model from [openpifpaf](https://github.com/vita-epfl/openpifpaf)
- and call it with `--checkpoint  <pifpaf model path>`
+* Pifpaf pre-trained model need to be downloaded from [Github](https://github.com/peterbonnesoeur/keypoint-based-car-detector/releases) as well or can be genrated with the training of openpifpaf.
 
 
 # Interfaces
@@ -143,7 +139,6 @@ Output options include json files and/or visualization of the predictions on the
 If it does not find the file, it will generate images
 with all the predictions without ground-truth matching.
 
-# ? It means that  we preprocess the datas from nuscens to then assign them to monoloco
 Below an example with and without ground-truth matching. They have been created (adding or removing `--path_gt`) with:
 `python3 -m monoloco.run predict --glob docs/002282.png --output_types combined --scale 2 
 --model data/models/monoloco-190513-1437.pkl --n_dropout 50 --z_max 30`
@@ -163,19 +158,6 @@ Below an example on a generic image from the web, created with:
 
 ![no calibration](docs/surf.jpg.combined.png)
 
-
-# Webcam
-<img src="docs/webcam_short.gif" height=350 alt="example image" />
-
-MonoLoco can run on personal computers with only CPU and low resolution images (e.g. 256x144) at ~2fps.
-It support 3 types of visualizations: `front`, `bird` and `combined`.
-Multiple visualizations can be combined in different windows.
-
-The above gif has been obtained running on a Macbook the command:
-
-```pip3 install opencv-python
-python3 -m monoloco.run predict --webcam --scale 0.2 --output_types combined --z_max 10 --checkpoint resnet50 --model data/models/monoloco-190513-1437.pkl
-```
 
 # Preprocessing
 
@@ -238,13 +220,6 @@ and stereo Baselines:
 and save them into `data/kitti/m3d`
 * **3DOP**: download validation files from [here](https://xiaozhichen.github.io/) 
 and save them into `data/kitti/3dop`
-* **MonoDepth**: compute an average depth for every instance using the following script 
-[here](https://github.com/Parrotlife/pedestrianDepth-baseline/tree/master/MonoDepth-PyTorch) 
-and save them into `data/kitti/monodepth`
-* **GeometricalBaseline**: A geometrical baseline comparison is provided. 
-The average geometrical value for comparison can be obtained running:
-`python3 -m monoloco.run eval --geometric 
---model data/models/monoloco-190719-0923.pkl --joints data/arrays/joints-nuscenes_teaser-190717-1424.json`
 
 
 The following results are obtained running:
