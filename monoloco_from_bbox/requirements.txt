@@ -3,7 +3,7 @@ sys
 time
 torch
 logging
-os
+os-sys
 json
 collections-extended
 datetime

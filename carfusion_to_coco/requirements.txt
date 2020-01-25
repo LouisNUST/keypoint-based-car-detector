@@ -13,5 +13,5 @@ Pillow
 tensorflow
 imageai
 argparse
-os
+os-sys
 json

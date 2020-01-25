@@ -3,5 +3,5 @@ pysparkling
 argparse
 datetime
 logging
-os
+os-sys
 json
