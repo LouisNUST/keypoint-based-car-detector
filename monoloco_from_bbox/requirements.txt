@@ -1,6 +1,5 @@
 numpy
 torch
-os-sys
 collections-extended
 datetime
 nuscenes-devkit

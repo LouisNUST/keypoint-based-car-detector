@@ -2,4 +2,3 @@ numpy
 pysparkling
 argparse
 datetime
-os-sys
