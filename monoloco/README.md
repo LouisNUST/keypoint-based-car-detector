@@ -1,13 +1,13 @@
 # Monoloco - Detection of cars
 
-> We tackle the fundamentally ill-posed problem of 3D human localization from monocular RGB images. Driven by the limitation of neural networks outputting point estimates, we address the ambiguity in the task by predicting confidence intervals through a loss function based on the Laplace distribution. Our architecture is a light-weight feed-forward neural network that predicts 3D locations and corresponding confidence intervals given 2D human poses. The design is particularly well suited for small training data, cross-dataset generalization, and real-time applications. Our experiments show that we (i) outperform state-of-the-art results on KITTI and nuScenes datasets, (ii) even outperform a stereo-based method for far-away pedestrians, and (iii) estimate meaningful confidence intervals. We further share insights on our model of uncertainty in cases of limited observations and out-of-distribution samples.
 # Introduction:
 
 This work is a modification of the original [Monoloco](https://github.com/vita-epfl/monoloco) algorithm to be able to estimate the position of cars thanks to the data from the keypoints obtained with Openpifpaf.
 
 In order to make this version work, a few modification needs to be performed in the following files:
 
-**BEFORE ANYTHING ELSE**
+# *BEFORE ANYTHING ELSE*
+
 ## In network/process.py
 
 In the function 'prepare_pif_kps', an if statement at the line 143 will decide wether or not we truncaturate the keypoints [8,9] of the detectected keypoints. Those 2 keypoints arecorresponding to the mirrors of the cars. Given that the carfusion dataset rarely annotate the mirrors, the uncertainty produced when we use the command '--force-complete-pose' when we predict the skeleton of the car is high. Hence, we obtain better results by removing those 2 keypoints from our data.

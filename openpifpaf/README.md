@@ -16,13 +16,27 @@
 
 # Introduction
 
-This work is part of a project aiming to detect cars with the openpifpaf framework by creating a skeleton arounf the frames of the cars. This leaded to turn the [original code](https://github.com/vita-epfl/openpifpaf) and to generalize it to any kind of dataset.
+This work is part of a project aiming to detect cars with the openpifpaf framework by creating a skeleton around the frames of the cars. This leaded to turn the [original code](https://github.com/vita-epfl/openpifpaf) and to generalize it to any kind of dataset.
 
 
 ![Carfusion validation](docs/validation.png)
 
 ![Carfusion nuscenes](docs/car_nuscenes.png)
 
+
+# To modify
+
+A few modification needs to be done nonetheless in three functions of openpifpaf. Also, one needs to feed a dataset that was preprocessed in the coco format to be able to train this algortihtm. An example of this is provided with the processed dataset of [carFusion](http://www.cs.cmu.edu/~mvo/index_files/Papers/CarFusion.pdf) preprocessed to fit the [formatting](https://github.com/peterbonnesoeur/keypoint-based-car-detector/tree/master/carfusion_to_coco). 
+
+- **Data.py**
+
+In data.py, the name of the supercategory 'data_category' has to be modified with the name of the supercategory of your dataset.Furthermore, the desired Skeleton, Keypoints and hflip and Sigmas (used for the loss function) have to set the parameters : 'COCO_SKELETON', 'COCO_KEYPOINTS', 'HFLIP' and 'COCO_SIGMAS'.[If you want to use carfusion for humans/cars, just replace those values with the ones with the values of 'COCO_PERSON_SKELETON' or 'COCO_CAR_SKELETON' present in the data.py]. 
+- **Dataset.py**
+In dataset.py, the fields 'ANNOTATIONS_TRAIN' and 'ANNOTATIONS_VAL'(line 12-13) should receive the path of the json files containg the annotations of the dataset in the COCO formatting for the training and the vaidation. The fields 'IMAGE_DIR_TRAIN' and 'IMAGE_DIR_VAL'(line 14-15)  should receive the path of the files containing the training and validation dataset.
+
+- **Eval_coco**
+In eval_coco.py, the field 'ANNOTATIONS_VAL'(line 23) should receive the path of the json files containg the annotations of the dataset in the COCO formatting for the training and the vaidation. The field 'IMAGE_DIR_VAL'(line 24) should receive the path of the files containing the training and validation dataset.
+--- 
 
 # Install
 
@@ -45,26 +59,7 @@ The last command installs the Python package in the current directory
 (signified by the dot) with the optional dependencies needed for training and
 testing.
 
-# To modify
 
-A few modification needs to be done nonetheless in three functions of pifpaf:
-
-* data.py
-* dataset.py
-* evalcoco.py
-
-Also, one needs to feed a dataset that was preprocessed in the coco format to be able to train this algortihtm. An example of this is provided with the processed dataset of [carFusion](http://www.cs.cmu.edu/~mvo/index_files/Papers/CarFusion.pdf) preprocessed to fit the [formatting](https://github.com/peterbonnesoeur/keypoint-based-car-detector/tree/master/carfusion_to_coco). 
-
-- **Data.py**
-
-In data.py, the name of the supercategory 'data_category' has to be modified with the name of the supercategory of your dataset.Furthermore, the desired Skeleton, Keypoints and hflip and Sigmas (used for the loss function) have to set the parameters : 'COCO_SKELETON', 'COCO_KEYPOINTS', 'HFLIP' and 'COCO_SIGMAS'.[If you wnaz to use carfusion for humans/cars, just replace those values with the ones with 'PERSON' or 'CAR' present in the document]. 
-- **Dataset.py**
-In dataset.py, containing the images of your dataset and the annotation directory have to be set.
-
-- **Eval_coco**
-In eval_coco.py, set the name of the annotations and image directory for the validation of the dataset.
-
---- 
 
 # Training 
 
