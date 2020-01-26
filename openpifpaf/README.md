@@ -106,9 +106,9 @@ Performance metrics with on the carfusion training set are obtained with a TITAN
 
 | Backbone        | AP       |  AR       | t_{total} [ms]  | t_{dec} [ms] | long_edges | Square_edges |
 |----------------:|:--------:|:---------:|:---------------:|:------------:|:----------:|:------------:|
-| resnet101       | __67.7__ | 77.1      |     503         | 168          |1200        |   250        |
-| resnet101       | __68.8__ | 78.2      |     254         | 158          |1200        |   420        |
-| resnet101       | __66.6__ | 76.6      |     245         | 148          |1200        |   800        |
+| resnet101       | __68.6__ | 78.9      |     722         | 218          |1500        |   250        |
+| resnet101       | __69.9__ | 79.8      |     380         | 206          |1500        |   420        |
+| resnet101       | __69.2__ | 79.8      |     375         | 148          |1500        |   800        |
 
 
 Pretrained model files are shared in the releases : 
