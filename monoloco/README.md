@@ -4,6 +4,10 @@
 
 This work is a modification of the original [Monoloco](https://github.com/vita-epfl/monoloco) algorithm to be able to estimate the position of cars thanks to the data from the keypoints obtained with Openpifpaf.
 
+![Estimation of the distances with Monoloco and openpifpaf](docs/example_modifs.png)
+
+
+
 In order to make this version work, a few modification needs to be performed in the following files:
 
 # **BEFORE ANYTHING ELSE**
