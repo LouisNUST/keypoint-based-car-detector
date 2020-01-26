@@ -33,7 +33,8 @@ If you did not genrate the json files of the nuscenes dataset with openpifpaf, y
 You need to modify the checkpoint of 'openpifpaf.network.factory'(line 73) with your trained openpifpaf model.
 
 ## In prep/preprocess_ki.py
-If you did not genrate the json files of the kitti dataset with openpifpaf, you can nonetheless run preprocess_ki.py which will process the keypoints by himself (not recommended because slower). 
+
+f you did not genrate the json files of the kitti dataset with openpifpaf, you can nonetheless run preprocess_ki.py which will process the keypoints by himself (not recommended because slower). 
 You need to modify the checkpoint of 'openpifpaf.network.factory'(line 71) with your trained openpifpaf model.
 
 ## In eval/generate_kitti.py
