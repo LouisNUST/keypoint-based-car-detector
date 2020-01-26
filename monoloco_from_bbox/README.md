@@ -2,6 +2,8 @@
 
 Function to convert the bounding box of the nuscenes dataset into a set of 9 keypoints to be trained and evaluated with Monoloco.
 
+![Carfusion with bounding box](../docs/Carfusion_bbox.png)
+
 # Installation
 
 To make this notebook work, install the required packeges with :
