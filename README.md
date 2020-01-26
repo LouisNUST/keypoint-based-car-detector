@@ -46,6 +46,6 @@ If you are not looking to prove this, you can forget this part and go straight t
 
 This folder countains the modified version of Monoloco to perform the training and evaluation on the pifpaf keypoints and or the nuscenes boxes. This algorithm takes as input a set of keypoints and the intrinsic matrix K of the camera and outputs the estimated distance with an aleatoric uncertainty.
 
-This part is still in development.
+**This part is still in development.**
 
 ![Monoloco distance estimation](docs/monoloco_12_1.png)
