@@ -14,25 +14,25 @@ Here will be presented each folder of this github in the chronological order. We
 
 The coco dataset will be downloaded and processed at first. The folder 'carfusion_to_coco' have a script to download the carfusion dataser. It countains the position of the keypoints of the cars as depicted in the image below:
 
-[Carfusion](docs/Carfusion.png)
+![Carfusion](docs/Carfusion.png)
 
 It is necessary to process this dataset to indicate the position of the non annotated cars:
 
-[Carfusion with bounding box](docs/Carfusion_bbox.png)
+![Carfusion with bounding box](docs/Carfusion_bbox.png)
 
 # 2 - Openpifpaf
 
 This part is about training and evaluating the keypoints based vehicle detection through the openpifpaf algorithm. It should take as an input an RGB image and output a set of keypoints which delimit the car:
 
 
-[Result of Openpifpaf](docs/training.png)
+![Result of Openpifpaf](docs/training.png)
 
 # 3- Benchmarking Pifpaf
 
 This folder countains a notebooks that will only do a quick resume of the different benchmarking that you have done with openpifpaf. It is usefull to select which model is the most adequate for a peculiar application.
 
 
-[Result of Openpifpaf](docs/benchmark.png)
+![Result of Openpifpaf](docs/benchmark.png)
 
 # 4 - Bounding box of Nuscenes preporcessing
 
@@ -40,7 +40,7 @@ This part is not obligatory. It countains a method to preprocess the bounding bo
 
 If you are not looking to prove this, you can forget this part and go straight to the training of monoloco with the openpifpaf's keypoints.
 
-[Monoloco with bounding boxes](docs/monoloco_box2.png)
+![Monoloco with bounding boxes](docs/monoloco_box2.png)
 
 # 5 - Monoloco training and evaluation
 
@@ -48,4 +48,4 @@ This folder countains the modified version of Monoloco to perform the training a
 
 This part is still in development.
 
-[Monoloco distance estimation](docs/monoloco_12_1.png)
+![Monoloco distance estimation](docs/monoloco_12_1.png)
