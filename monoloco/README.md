@@ -6,7 +6,7 @@ This work is a modification of the original [Monoloco](https://github.com/vita-e
 
 In order to make this version work, a few modification needs to be performed in the following files:
 
-# *BEFORE ANYTHING ELSE*
+# **BEFORE ANYTHING ELSE**
 
 ## In network/process.py
 
@@ -25,24 +25,24 @@ Ensure that the 'n_joints'(line 12) is equal to your number of keypoints
 ## In network/pifpaf.py
 Replace the 'args.checkpoint'(line 45) by your trained openpifpaf model (you can ignore this step if you are giving your model as an argument with the command --checkpoint)
 
-## in prep/transform.py 
+## In prep/transform.py 
 Replace 'COCO_KEYPOINT' and 'HFLIP' with the 'COCO_KEYPOINT' and 'HFLIP' that you used to train your model.
 
-## in prep/preprocess_nu.py
+## In prep/preprocess_nu.py
 If you did not genrate the json files of the nuscenes dataset with openpifpaf, you can nonetheless run preprocess_nu.py which will process the keypoints by himself (not recommended because slower). 
 You need to modify the checkpoint of 'openpifpaf.network.factory'(line 73) with your trained openpifpaf model.
 
-## in prep/preprocess_ki.py
+## In prep/preprocess_ki.py
 If you did not genrate the json files of the kitti dataset with openpifpaf, you can nonetheless run preprocess_ki.py which will process the keypoints by himself (not recommended because slower). 
 You need to modify the checkpoint of 'openpifpaf.network.factory'(line 71) with your trained openpifpaf model.
 
-## in eval/generate_kitti.py
+## In eval/generate_kitti.py
 Ensure that the variable in 'CATEGORIES'(line 31) is equal to the name of the category that you want to evaluate (in our case, 'car')
 
-## in eval/eval_kitti.py
+## In eval/eval_kitti.py
 Ensure that the variable in 'CATEGORIES'(line 31) is equal to the name of the category that you want to evaluate (in our case, 'car')
 
-**END OF THE MODIFICATIONS**
+# **END OF THE MODIFICATIONS**
 
 The rest of the functionnalities and the method to use Monoloco still remains the exact same. The rest of the documentation should provide you all of the necessary informations needed to work with Monoloco.
 
