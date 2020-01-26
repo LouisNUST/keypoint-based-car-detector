@@ -16,7 +16,7 @@ In order to make this version work, a few modification needs to be performed in 
 
 In the function 'prepare_pif_kps', an if statement at the line 143 will decide wether or not we truncaturate the keypoints [8,9] of the detectected keypoints. Those 2 keypoints arecorresponding to the mirrors of the cars. Given that the carfusion dataset rarely annotate the mirrors, the uncertainty produced when we use the command '--force-complete-pose' when we predict the skeleton of the car is high. Hence, we obtain better results by removing those 2 keypoints from our data.
 
-- *If* you decide to let the value of the IF statement to 'True', your number of keypoints should be (nb_keypoints - 2) [In our case: 12]
+- *If* you decide to let the value of the IF statement to ```True```, your number of keypoints should be (nb_keypoints - 2) [In our case: 12]
 
 - *If* you decide to put the value of the IF statement to 'False', your number of keypoints should be (nb_keypoints ) [In our case: 14]
 
