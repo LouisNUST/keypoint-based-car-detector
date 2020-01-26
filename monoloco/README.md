@@ -14,38 +14,38 @@ In order to make this version work, a few modification needs to be performed in 
 
 ## In network/process.py
 
-In the function 'prepare_pif_kps', an if statement at the line 143 will decide wether or not we truncaturate the keypoints [8,9] of the detectected keypoints. Those 2 keypoints arecorresponding to the mirrors of the cars. Given that the carfusion dataset rarely annotate the mirrors, the uncertainty produced when we use the command '--force-complete-pose' when we predict the skeleton of the car is high. Hence, we obtain better results by removing those 2 keypoints from our data.
+In the function ```prepare_pif_kps```, an if statement at the line 143 will decide wether or not we truncaturate the keypoints [8,9] of the detectected keypoints. Those 2 keypoints arecorresponding to the mirrors of the cars. Given that the carfusion dataset rarely annotate the mirrors, the uncertainty produced when we use the command ```--force-complete-pose``` when we predict the skeleton of the car is high. Hence, we obtain better results by removing those 2 keypoints from our data.
 
 - *If* you decide to let the value of the IF statement to ```True```, your number of keypoints should be (nb_keypoints - 2) [In our case: 12]
 
-- *If* you decide to put the value of the IF statement to 'False', your number of keypoints should be (nb_keypoints ) [In our case: 14]
+- *If* you decide to put the value of the IF statement to ```False```, your number of keypoints should be (nb_keypoints ) [In our case: 14]
 
 ## In network/net.py
-Ensure that the 'INPUT_SIZE'(line 20) is your number of keypoints multiplied by 2.  
+Ensure that the ```INPUT_SIZE```(line 20) is your number of keypoints multiplied by 2.  
 
 ## In train/trainer.py
-Ensure that the 'n_joints'(line 12) is equal to your number of keypoints.
+Ensure that the ```n_joints```(line 12) is equal to your number of keypoints.
 
 ## In network/pifpaf.py
-Replace the 'args.checkpoint'(line 45) by your trained openpifpaf model (you can ignore this step if you are giving your model as an argument with the command --checkpoint).
+Replace the ```args.checkpoint```(line 45) by your trained openpifpaf model (you can ignore this step if you are giving your model as an argument with the command --checkpoint).
 
 ## In prep/transform.py 
-Replace 'COCO_KEYPOINT' and 'HFLIP' with the 'COCO_KEYPOINT' and 'HFLIP' that you used to train your model.
+Replace ```COCO_KEYPOINT``` and ```HFLIP``` with the ```COCO_KEYPOINT``` and ```HFLIP``` that you used to train your model.
 
 ## In prep/preprocess_nu.py
 If you did not genrate the json files of the nuscenes dataset with openpifpaf, you can nonetheless run preprocess_nu.py which will process the keypoints by himself (not recommended because slower). 
-You need to modify the checkpoint of 'openpifpaf.network.factory'(line 73) with your trained openpifpaf model.
+You need to modify the checkpoint of ```openpifpaf.network.factory```(line 73) with your trained openpifpaf model.
 
 ## In prep/preprocess_ki.py
 
 f you did not genrate the json files of the kitti dataset with openpifpaf, you can nonetheless run preprocess_ki.py which will process the keypoints by himself (not recommended because slower). 
-You need to modify the checkpoint of 'openpifpaf.network.factory'(line 71) with your trained openpifpaf model.
+You need to modify the checkpoint of ```openpifpaf.network.factory```(line 71) with your trained openpifpaf model.
 
 ## In eval/generate_kitti.py
-Ensure that the variable in 'CATEGORIES'(line 31) is equal to the name of the category that you want to evaluate (in our case, 'car').
+Ensure that the variable in ```CATEGORIES```(line 31) is equal to the name of the category that you want to evaluate (in our case, ```car```).
 
 ## In eval/eval_kitti.py
-Ensure that the variable in 'CATEGORIES'(line 31) is equal to the name of the category that you want to evaluate (in our case, 'car').
+Ensure that the variable in ```CATEGORIES```(line 31) is equal to the name of the category that you want to evaluate (in our case, ```car```).
 
 # **END OF THE MODIFICATIONS**
 

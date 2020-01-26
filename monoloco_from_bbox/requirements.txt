@@ -1,5 +1,6 @@
 numpy
 torch
+jupyter
 collections-extended
 datetime
 nuscenes-devkit

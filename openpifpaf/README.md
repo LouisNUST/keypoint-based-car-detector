@@ -1,17 +1,3 @@
-# openpifpaf
-
-
-> We propose a new bottom-up method for multi-car 2D human pose
-> estimation that is particularly well suited for urban mobility such as self-driving cars
-> and delivery robots. The new method, PifPaf, uses a Part Intensity Field (PIF) to
-> localize body parts and a Part Association Field (PAF) to associate car parts with each other to form
-> full car skeleton.
-> Our method outperforms previous methods at low resolution and in crowded,
-> cluttered and occluded scenes
-> thanks to (i) our new composite field PAF encoding fine-grained information and (ii) the choice of Laplace loss for regressions which incorporates a notion of uncertainty.
-> Our architecture is based on a fully
-> convolutional, single-shot, box-free design.
-
 # Openpifpaf for cars (and as many thinks as you want)
 
 # Introduction
@@ -30,12 +16,12 @@ A few modification needs to be done nonetheless in three functions of openpifpaf
 
 - **Data.py**
 
-In data.py, the name of the supercategory 'data_category' has to be modified with the name of the supercategory of your dataset.Furthermore, the desired Skeleton, Keypoints and hflip and Sigmas (used for the loss function) have to set the parameters : 'COCO_SKELETON', 'COCO_KEYPOINTS', 'HFLIP' and 'COCO_SIGMAS'.[If you want to use carfusion for humans/cars, just replace those values with the ones with the values of 'COCO_PERSON_SKELETON' or 'COCO_CAR_SKELETON' present in the data.py]. 
+In data.py, the name of the supercategory ```data_category``` has to be modified with the name of the supercategory of your dataset.Furthermore, the desired Skeleton, Keypoints and hflip and Sigmas (used for the loss function) have to set the parameters : ```COCO_SKELETON```, ```COCO_KEYPOINTS```, ```HFLIP``` and ```COCO_SIGMAS```.[If you want to use carfusion for humans/cars, just replace those values with the ones with the values of ```COCO_PERSON_SKELETON``` or ```COCO_CAR_SKELETON``` present in the data.py]. 
 - **Dataset.py**
-In dataset.py, the fields 'ANNOTATIONS_TRAIN' and 'ANNOTATIONS_VAL'(line 12-13) should receive the path of the json files containg the annotations of the dataset in the COCO formatting for the training and the vaidation. The fields 'IMAGE_DIR_TRAIN' and 'IMAGE_DIR_VAL'(line 14-15)  should receive the path of the files containing the training and validation dataset.
+In dataset.py, the fields ```ANNOTATIONS_TRAIN``` and ```ANNOTATIONS_VAL```(line 12-13) should receive the path of the json files containg the annotations of the dataset in the COCO formatting for the training and the vaidation. The fields ```IMAGE_DIR_TRAIN``` and ```IMAGE_DIR_VAL```(line 14-15)  should receive the path of the files containing the training and validation dataset.
 
 - **Eval_coco**
-In eval_coco.py, the field 'ANNOTATIONS_VAL'(line 23) should receive the path of the json files containg the annotations of the dataset in the COCO formatting for the training and the vaidation. The field 'IMAGE_DIR_VAL'(line 24) should receive the path of the files containing the training and validation dataset.
+In eval_coco.py, the field ```ANNOTATIONS_VAL```(line 23) should receive the path of the json files containg the annotations of the dataset in the COCO formatting for the training and the vaidation. The field ```IMAGE_DIR_VAL```(line 24) should receive the path of the files containing the training and validation dataset.
 --- 
 
 # Install
@@ -59,11 +45,8 @@ The last command installs the Python package in the current directory
 (signified by the dot) with the optional dependencies needed for training and
 testing.
 
-
-
 # Training 
 
-!
 ___
 
 ```
