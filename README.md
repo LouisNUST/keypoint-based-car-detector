@@ -20,21 +20,26 @@ It is necessary to process this dataset to indicate the position of the non anno
 
 ![Carfusion with bounding box](docs/Carfusion_bbox.png)
 
-# 2 - Openpifpaf
+# 2 -  Samsung_to_coco
+
+This part is about the conversion of the samsung dataset provided by the VITA laboratory. It has to be converted to the coco formatting to be used during the training with pifpaf. To use this dataset instead of the carfusion dataset, replace the name of the json files in ```openpifpaf/dataset.py``` and ```openpifpaf/eval_coco.py```.
+
+![Samsung with bounding box](docs/samsung.png)
+
+# 3 - Openpifpaf
 
 This part is about training and evaluating the keypoints based vehicle detection through the openpifpaf algorithm. It should take as an input an RGB image and output a set of keypoints which delimit the car:
 
 
 ![Result of Openpifpaf](docs/training.png)
 
-# 3- Benchmarking Pifpaf
+# 4- Benchmarking Pifpaf
 
 This folder countains a notebooks that will only do a quick resume of the different benchmarking that you have done with openpifpaf. It is usefull to select which model is the most adequate for a peculiar application.
 
-
 ![Result of Openpifpaf](docs/benchmark.png)
 
-# 4 - Bounding box of Nuscenes preporcessing
+# 5 - Bounding box of Nuscenes preprocessing
 
 This part is not obligatory. It countains a method to preprocess the bounding box of the nuscenes. The objective was to see if Monoloco was able to predict the position of the vehicle based on their bounding box. 
 

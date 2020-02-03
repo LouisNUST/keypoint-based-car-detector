@@ -33,7 +33,7 @@ Be carefull to remove the zip files if it is not done automatically
 
 To process the data of the carFusion dataset, we need to open the notebook conversion_to_coco.ipynb which will convert our annotations to a COCO formatting. 
 It will allow pifpaf to read those informations in order to process them. 
-3 main parameters needs to be providied : 
+3 main parameters needs to be provided : 
 
 - The path of the carfusion dataset ```dir_carfusion``` (be sure that there is no zip files in this folder).
 
