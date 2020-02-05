@@ -70,7 +70,6 @@ class EvalKitti:
         """Evaluate Monoloco performances on ALP and ALE metrics"""
 
         for category in self.CATEGORIES:
-
             # Initialize variables
             self.errors = defaultdict(lambda: defaultdict(list))
             self.dic_stds = defaultdict(lambda: defaultdict(list))
