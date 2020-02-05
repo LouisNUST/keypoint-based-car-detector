@@ -26,6 +26,11 @@ Ensure that the ```INPUT_SIZE```(line 20) is your number of keypoints multiplied
 ## In train/trainer.py
 Ensure that the ```n_joints```(line 12) is equal to your number of keypoints.
 
+## In network/porcess.py
+If you are using 12 key points, put the variable in the if statement (line 143) to ```True```.
+
+If you are using 14 key points, put the variable in the if statement (line 143) to ```False```.
+
 ## In network/pifpaf.py
 Replace the ```args.checkpoint```(line 45) by your trained openpifpaf model (you can ignore this step if you are giving your model as an argument with the command --checkpoint).
 
